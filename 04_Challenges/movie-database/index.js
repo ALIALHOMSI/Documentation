@@ -96,4 +96,17 @@ app.get(`/movies/read/by-rating`,(req,res)=>{
      res.send({status:200, data:sortByTitle })
  }
  )
+ app.get(`/movies/read/id/:id`,(req,res)=>{
+    const id=req.params.id;
+    const movie= movies.find(x => x.title === id ) 
+    if(typeof movie === 'undefined')
+    {
+        res.json({status:404, error:true, message:'the movie <ID> does not exist'})
+    }
+    else{
+         res.json({satues:200, data:movie})
+    }    
+    });
+
+ 
 
