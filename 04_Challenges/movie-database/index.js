@@ -75,4 +75,25 @@ app.get(`/movies/delete`,(req,res)=>{
     res.send({status:200, message:"ok"})
 }
 )
+app.get(`/movies/read`,(req,res)=>{
+    res.send({status:200, data:movies})
+}
+)
+app.get(`/movies/read/by-date`,(req,res)=>{
+   sortByDate = movies.sort((p1,p2)=>p1.year - p2.year)
+    res.send({status:200, data:sortByDate})
+}
+)
+
+app.get(`/movies/read/by-rating`,(req,res)=>{
+    sortByRating = movies.sort((p1,p2)=>p1.rating - p2.rating)
+     res.send({status:200, data:sortByRating })
+ }
+ )
+
+ app.get(`/movies/read/by-title`,(req,res)=>{
+    sortByTitle = movies.sort((p1,p2)=>p1.title - p2.title)
+     res.send({status:200, data:sortByTitle })
+ }
+ )
 
