@@ -108,5 +108,41 @@ app.get(`/movies/read/by-rating`,(req,res)=>{
     }    
     });
 
- 
+    app.get(`/movies/add?title=<TITLE>&year=<YEAR>&rating=<RATING>`,(req,res)=>{
+        let newmovie ={
+            title:req.query.title,
+            year:req.query.year,
+            rating:req.query.rating
+        }
+       if(!title ||!year||!year||year.length<4||isNaN(year)){
+        res.send({
+            status:404,
+            error:true,
+            message:"you cannot create a movie without providing the title and the year "
+        }
+        
+        
+        )
+       }
+       else if(!rating){
+        const rating =4;
+    const newmovie={title,year,rating};
+    movies.push(newmovie);
+       }
+       else {
+        const newmovie={title,year,rating};
+        movies.push(newmovie);
+       }
+    })
+
+
+
+    
+
+    app.get(`/movies/delete/id/:id`,(req,res)=>{
+        const id=req.params.id
+        movies.splice(id,1);
+        res.send(movies)
+     }
+     )
 
