@@ -1,9 +1,16 @@
+const movies = [
+    { title: 'Jaws', year: 1975, rating: 8 },
+    { title: 'Avatar', year: 2009, rating: 7.8 },
+    { title: 'Brazil', year: 1985, rating: 8 },
+    { title: 'الإرهاب والكباب', year: 1992, rating: 6.2 }
+]
 const express = require('express')
 const app = express()
-let port = 5000
+let port = 3000
 app.listen(port,function(req,res){
     console.log(`Server started at ${port}`)
 })
+
 app.get('/',(req,res) =>{
     res.send('ok')
 })
@@ -51,3 +58,21 @@ app.get('/search',(req,res) => {
         res.send(response);
     }
 });
+app.get(`/movies/create`,(req,res)=>{
+    res.send({status:200, message:"ok"})
+}
+)
+
+app.get(`/movies/read`,(req,res)=>{
+    res.send({status:200, data:movies})
+}
+)
+app.get(`/movies/update`,(req,res)=>{
+    res.send({status:200, message:"ok"})
+}
+)
+app.get(`/movies/delete`,(req,res)=>{
+    res.send({status:200, message:"ok"})
+}
+)
+
