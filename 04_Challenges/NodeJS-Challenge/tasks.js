@@ -116,8 +116,8 @@ function hello(text){
 function quit(){
   let fs = require('fs');
   const path=require('path');
-  const sarah = JSON.stringify(listt);
-  fs.writeFileSync(path.join(__dirname,'files',filename),sarah,(err)=>{
+  const HOMSI = JSON.stringify(listt);
+  fs.writeFileSync(path.join(__dirname,'files',filename),HOMSI,(err)=>{
        if(err) throw err;
   })
   process.on('uncaughtException' , err=>{
@@ -231,4 +231,4 @@ function edit(str){
 
 
 // The following line starts the application
-startApp("Kamel")
+startApp("ALI")
