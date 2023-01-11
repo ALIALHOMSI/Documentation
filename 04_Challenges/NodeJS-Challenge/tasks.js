@@ -1,4 +1,6 @@
 
+const { Console } = require('console');
+
 /**
  * Starts the application
  * This is the function that is run when the app starts
@@ -9,12 +11,24 @@
  * @param  {string} name the name of the app
  * @returns {void}
  */
+var filename= process.argv[2]? process.argv[2] : "database.json"
 function startApp(name){
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
   console.log(`Welcome to ${name}'s application!`)
   console.log("--------------------")
+  let fs = require('fs');
+  const path=require('path');
+  try{
+        let data=fs.readFileSync(path.join(__dirname,'files',filename),'utf-8');
+        let obj=JSON.parse(data)
+        listt=obj;
+  }
+  catch(err){
+      console.log(err);
+  }
+
 }
 
 
@@ -34,19 +48,44 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
-  if (text === 'quit\n') {
+  if (text === 'quit\n' || text === 'exit\n') {
     quit();
   }
-  else if(text === 'hello\n'){
-    hello();
+  else if(text.slice(0,5) === 'hello'){
+    hello(text);
+  }
+  else if(text === 'help\n'){
+    help();
+  }
+  else if(text === 'list\n'){
+    list();
+  }
+  else if(text.slice(0,5) === 'check' && text.length>6){
+    check(text.slice(6,text.length).replace('\n',''));
+  }
+  else if(text.slice(0,7) === 'uncheck' && text.length>8){
+    uncheck(text.slice(8,text.length).replace('\n',''));
+  }
+  else if (text.slice(0,3)=== 'add'){
+   add(text.slice(4,text.length).replace('\n',''));
+  }
+  else if (text.slice(0,6)=== 'remove'){
+    remove(text.trim().substring(7))
   }
   else{
-    unknownCommand(text);
+    if(text.slice(0,4)=== 'edit' && text.length>5){
+      edit(text)
+    }
+    else
+    {
+      unknownCommand(text);
+    }
   }
 }
 
 
-/**
+/**Setup: Why do bees stay in the hive in the winter?
+Punchline: Swarm.
  * prints "unknown command"
  * This function is supposed to run when all other commands have failed
  *
@@ -63,8 +102,8 @@ function unknownCommand(c){
  *
  * @returns {void}
  */
-function hello(){
-  console.log('hello!')
+function hello(text){
+  console.log(text.trim() + '!')
 }
 
 
@@ -73,10 +112,123 @@ function hello(){
  *
  * @returns {void}
  */
+/** this function will let you quit the app */
 function quit(){
+  let fs = require('fs');
+  const path=require('path');
+  const sarah = JSON.stringify(listt);
+  fs.writeFileSync(path.join(__dirname,'files',filename),sarah,(err)=>{
+       if(err) throw err;
+  })
+  process.on('uncaughtException' , err=>{
+    console.error("error while saving")
+  })
   console.log('Quitting now, goodbye!')
   process.exit();
 }
 
+/*
+* help command
+*/
+function help(){
+  console.log(' command to say Hello (name)! = hello (name) \n command to quit = quit / exit\n command to see the list = list\n command to add an object = add\n command to remove an object = remove\n command to check an object = check\n command to uncheck an object = uncheck\n command to edit an object = edit')
+  
+}
+
+let listt = [
+  {done:false, name: "wake up and code"},
+  {done:false, name: "sleep and code"},
+  {done:false, name: " up and code"},
+  {done:false, name: "down and code"}
+  ];
+/* list command */
+function list(){
+
+  let i=1;
+  listt.forEach(object => {
+     
+    if(object.done==false)
+    {
+      console.log(`${i} - [ ] ${object.name}`)
+    }
+    else
+    {
+      console.log(`${i} - [✓] ${object.name}`)
+    }
+    i++
+  })
+  const add = (task) => {
+    listt.push(task);
+    console.log(`"${task}" has been added to your task list\n`);
+  };
+}
+/* this function to add an object to the array */
+function add(value){
+  let object={
+    name: value,
+    done: false
+  }
+ if(value.trim().length==0)
+ {
+      console.log('Error')
+  }
+  else{
+  listt.push(object)}
+}
+/* this function to remove an object from the array */
+function remove(index){
+
+  listt.splice(index-1, 1); 
+
+}
+/* this function to check an object */
+function check(taskIndex) {
+  if(taskIndex>=listt.length-1 && taskIndex<0)
+  {
+    console.log("unavailable index")
+    return
+  }
+  else{
+    listt[taskIndex-1].done = true
+    console.log(`task ${taskIndex} is marked as checked\n`)
+  }
+}
+/* this function to uncheck an object */
+function uncheck(taskIndex) {
+  if(taskIndex>=listt.length-1 && taskIndex<0)
+  {
+    console.log("unavailable index")
+    return
+  }
+  else{
+    listt[taskIndex-1].done = false
+    console.log(`task ${taskIndex} is marked as unchecked\n`)
+  }
+}
+/* this function to edit */
+function edit(str){
+       let index,item;
+       if(!isNaN(str.trim().substring(5,6)))
+       { 
+        index=parseInt(str.trim().substring(5,6))-1
+        item=str.trim().substring(6)
+        
+       }
+       else
+       {
+           index=listt.length-1;
+           item=str.trim().substring(5)
+       }
+       console.log(item)
+       console.log(index)
+       listt[index++].name=item
+       console.log("task "+index+ " changed to "+item+"\n")
+}
+
+
+
+
+
+
 // The following line starts the application
-startApp("Jad Sarout")
+startApp("Kamel")
