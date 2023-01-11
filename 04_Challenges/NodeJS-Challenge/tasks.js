@@ -8,7 +8,7 @@ const { Console } = require('console');
  * It prints a welcome line, and then a line with "----",
  * then nothing.
  *  
- * @param  {string} name the name of the app
+ * @param  {string} name 
  * @returns {void}
  */
 var filename= process.argv[2]? process.argv[2] : "database.json"
@@ -112,7 +112,7 @@ function hello(text){
  *
  * @returns {void}
  */
-/** this function will let you quit the app */
+
 function quit(){
   let fs = require('fs');
   const path=require('path');
@@ -127,9 +127,7 @@ function quit(){
   process.exit();
 }
 
-/*
-* help command
-*/
+
 function help(){
   console.log(' command to say Hello (name)! = hello (name) \n command to quit = quit / exit\n command to see the list = list\n command to add an object = add\n command to remove an object = remove\n command to check an object = check\n command to uncheck an object = uncheck\n command to edit an object = edit')
   
@@ -141,7 +139,7 @@ let listt = [
   {done:false, name: " up and code"},
   {done:false, name: "down and code"}
   ];
-/* list command */
+
 function list(){
 
   let i=1;
@@ -162,7 +160,7 @@ function list(){
     console.log(`"${task}" has been added to your task list\n`);
   };
 }
-/* this function to add an object to the array */
+
 function add(value){
   let object={
     name: value,
@@ -175,13 +173,13 @@ function add(value){
   else{
   listt.push(object)}
 }
-/* this function to remove an object from the array */
+
 function remove(index){
 
   listt.splice(index-1, 1); 
 
 }
-/* this function to check an object */
+
 function check(taskIndex) {
   if(taskIndex>=listt.length-1 && taskIndex<0)
   {
@@ -193,7 +191,7 @@ function check(taskIndex) {
     console.log(`task ${taskIndex} is marked as checked\n`)
   }
 }
-/* this function to uncheck an object */
+
 function uncheck(taskIndex) {
   if(taskIndex>=listt.length-1 && taskIndex<0)
   {
@@ -205,7 +203,7 @@ function uncheck(taskIndex) {
     console.log(`task ${taskIndex} is marked as unchecked\n`)
   }
 }
-/* this function to edit */
+
 function edit(str){
        let index,item;
        if(!isNaN(str.trim().substring(5,6)))
@@ -230,5 +228,5 @@ function edit(str){
 
 
 
-// The following line starts the application
+
 startApp("ALI")
